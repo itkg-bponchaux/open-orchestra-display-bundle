@@ -1,6 +1,7 @@
 parameters:
     open_orchestra_display.display_block_manager.class: OpenOrchestra\DisplayBundle\DisplayBlock\DisplayBlockManager
     open_orchestra_display.display.contact.class: OpenOrchestra\DisplayBundle\DisplayBlock\Strategies\ContactStrategy
+    open_orchestra_display.display.newsletter_registration.class: OpenOrchestra\DisplayBundle\DisplayBlock\Strategies\NewsletterRegistrationStrategy
     open_orchestra_display.display.footer.class: OpenOrchestra\DisplayBundle\DisplayBlock\Strategies\FooterStrategy
     open_orchestra_display.display.menu.class: OpenOrchestra\DisplayBundle\DisplayBlock\Strategies\MenuStrategy
     open_orchestra_display.display.sample.class: OpenOrchestra\DisplayBundle\DisplayBlock\Strategies\SampleStrategy
@@ -20,9 +21,16 @@ services:
             - @open_orchestra_display.manager.cacheable
             - @open_orchestra_base.manager.tag
             - @open_orchestra_display.manager.site
-
     open_orchestra_display.display.contact:
         class: %open_orchestra_display.display.contact.class%
+        arguments:
+            - @form.factory
+            - @request_stack
+            - @event_dispatcher
+        tags:
+            - { name: open_orchestra_display.display_block.strategy }
+    open_orchestra_display.display.newsletter_registration:
+        class: %open_orchestra_display.display.newsletter_registration.class%
         arguments:
             - @form.factory
             - @request_stack
